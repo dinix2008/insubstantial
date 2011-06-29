@@ -12,6 +12,7 @@ import java.net.URL;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
+import org.pushingpixels.flamingo.api.common.JCommandButton;
 import org.pushingpixels.flamingo.api.common.icon.ImageWrapperResizableIcon;
 import org.pushingpixels.flamingo.api.common.icon.ResizableIcon;
 import org.pushingpixels.flamingo.api.ribbon.JRibbon;
@@ -46,6 +47,14 @@ public class ExampleRibbonFrame extends JRibbonFrame {
 		super("Example Ribbon Frame");
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		createApplicationRibbon(getRibbon());
+		getRibbon()
+				.addTaskbarComponent(
+						new JCommandButton(
+								getResizableIconFromResource("example/resources/cut.png")));
+		getRibbon()
+				.addTaskbarComponent(
+						new JCommandButton(
+								getResizableIconFromResource("example/resources/paste.png")));
 	}
 
 	/**
@@ -54,7 +63,14 @@ public class ExampleRibbonFrame extends JRibbonFrame {
 	 * @return the application ribbon
 	 */
 	private JRibbon createApplicationRibbon(JRibbon ribbon) {
-		RibbonFactory factory = new RibbonFactory(ribbon).withHelp();
+		RibbonFactory factory = new RibbonFactory(ribbon)
+				.withHelp(new ActionListener() {
+
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						System.out.println("Help");
+					}
+				});
 
 		// build application menu
 		factory.newSubMenuGroup();
@@ -284,10 +300,9 @@ public class ExampleRibbonFrame extends JRibbonFrame {
 		factory.addTask("God");
 
 		factory.addButton("Blah",
-				getResizableIconFromResource("example/resources/task.png"))
-				.addBand(
-						"Blah",
-						getResizableIconFromResource("example/resources/task.png"));
+				getResizableIconFromResource("example/resources/task.png"),
+				null).addBand("Blah",
+				getResizableIconFromResource("example/resources/task.png"));
 		factory.addContextualTask("Extra 1");
 		extra1RibbonTasks = factory
 				.getContextualTaskGroup("Extra 1", Color.red);
@@ -295,16 +310,14 @@ public class ExampleRibbonFrame extends JRibbonFrame {
 
 		factory.clearContextualTaskGroupsQueue();
 		factory.addButton("First",
-				getResizableIconFromResource("example/resources/task.png"))
-				.addBand(
-						"Blah",
-						getResizableIconFromResource("example/resources/task.png"));
+				getResizableIconFromResource("example/resources/task.png"),
+				null).addBand("Blah",
+				getResizableIconFromResource("example/resources/task.png"));
 		factory.addContextualTask("Extra 1");
 		factory.addButton("Second",
-				getResizableIconFromResource("example/resources/task.png"))
-				.addBand(
-						"Blah",
-						getResizableIconFromResource("example/resources/task.png"));
+				getResizableIconFromResource("example/resources/task.png"),
+				null).addBand("Blah",
+				getResizableIconFromResource("example/resources/task.png"));
 		factory.addContextualTask("Extra 2");
 		extra2RibbonTasks = factory.getContextualTaskGroup("Extra 2",
 				Color.green);
@@ -312,22 +325,19 @@ public class ExampleRibbonFrame extends JRibbonFrame {
 
 		factory.clearContextualTaskGroupsQueue();
 		factory.addButton("First",
-				getResizableIconFromResource("example/resources/task.png"))
-				.addBand(
-						"Blah",
-						getResizableIconFromResource("example/resources/task.png"));
+				getResizableIconFromResource("example/resources/task.png"),
+				null).addBand("Blah",
+				getResizableIconFromResource("example/resources/task.png"));
 		factory.addContextualTask("Extra 1");
 		factory.addButton("Second",
-				getResizableIconFromResource("example/resources/task.png"))
-				.addBand(
-						"Blah",
-						getResizableIconFromResource("example/resources/task.png"));
+				getResizableIconFromResource("example/resources/task.png"),
+				null).addBand("Blah",
+				getResizableIconFromResource("example/resources/task.png"));
 		factory.addContextualTask("Extra 2");
 		factory.addButton("Third",
-				getResizableIconFromResource("example/resources/task.png"))
-				.addBand(
-						"Blah",
-						getResizableIconFromResource("example/resources/task.png"));
+				getResizableIconFromResource("example/resources/task.png"),
+				null).addBand("Blah",
+				getResizableIconFromResource("example/resources/task.png"));
 		factory.addContextualTask("Extra 3");
 		extra3RibbonTasks = factory.getContextualTaskGroup("Extra 3",
 				Color.blue);

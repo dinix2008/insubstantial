@@ -92,7 +92,7 @@ public class RibbonFactoryTest extends TestCase {
 	 */
 	protected RibbonFactory addButtons(int buttons) {
 		for (int i = 0; i < buttons; i++) {
-			ribbon.addButton("Button " + i);
+			ribbon.addButton("Button " + i, null);
 		}
 		return ribbon;
 	}
