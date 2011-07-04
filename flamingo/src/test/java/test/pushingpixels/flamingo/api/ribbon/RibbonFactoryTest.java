@@ -4,8 +4,10 @@ import java.awt.Color;
 
 import junit.framework.TestCase;
 
-import org.junit.After;
+//import static org.junit.Assert.*;
+
 import org.junit.Before;
+import org.junit.Test;
 import org.pushingpixels.flamingo.api.ribbon.JRibbon;
 import org.pushingpixels.flamingo.api.ribbon.RibbonFactory;
 import org.pushingpixels.flamingo.internal.ui.ribbon.JBandControlPanel;
@@ -20,22 +22,20 @@ public class RibbonFactoryTest extends TestCase {
 		ribbon = new RibbonFactory();
 	}
 
-	@After
-	public void tearDown() throws Exception {
-		ribbon = null;
-	}
-
 	/** Tests that ribbon tasks are added successfully */
+	@Test
 	public void testRibbonTasks() {
 		for (int i = 0; i < 5; i++) {
 			addBands(4, 5);
 			ribbon.addTask("Task " + i);
 			JRibbon r = ribbon.getRibbon();
 			assertEquals(i + 1, r.getTaskCount());
+
 		}
 	}
 
 	/** Tests that contextual ribbon tasks are added successfully */
+	@Test
 	public void testRibbonContextualTasks() {
 		for (int i = 0; i < 5; i++) {
 			for (int j = 0; j < 5; j++) {
