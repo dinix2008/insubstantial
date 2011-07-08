@@ -1,6 +1,7 @@
 package org.pushingpixels.flamingo.api.ribbon;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.event.ActionListener;
 import java.net.URL;
@@ -106,13 +107,50 @@ public class RibbonFactory {
 		contextualTasks = new LinkedList<RibbonTask>();
 	}
 
-	public RibbonFactory createGallery(String name) {
-		if (bands.size() > 0) {
-			// get the last ribbon band added to customize it
-			JRibbonBand band = bands.getLast();
-		}
+	/**
+	 * Adds the <code>button</code> to the ribbon and returns the ribbon factory
+	 * for additional modification or creation.
+	 * <p>
+	 * Taskbar components are small components placed to the right of the
+	 * application menu. These components usually perform an action common among
+	 * the entire application.
+	 * <p>
+	 * This is equivalent to <code>addTaskbarComponent(button)</code>.
+	 * 
+	 * @see #addTaskbarComponent(Component)
+	 * @param button
+	 *            the button to add
+	 * @return the ribbon factory
+	 */
+	public RibbonFactory addTaskbarButton(JCommandButton button) {
+		ribbon.addTaskbarComponent(button);
 		return this;
 	}
+
+	/**
+	 * Adds the <code>component</code> to the ribbon and returns the ribbon
+	 * factory for additional modification or creation.
+	 * <p>
+	 * Taskbar components are small components placed to the right of the
+	 * application menu. These components usually perform an action common among
+	 * the entire application.
+	 * 
+	 * @param component
+	 *            the <code>Component</code> to add
+	 * @return the ribbon factory
+	 */
+	public RibbonFactory addTaskbarComponent(Component component) {
+		ribbon.addTaskbarComponent(component);
+		return this;
+	}
+
+	// public RibbonFactory createGallery(String name) {
+	// if (bands.size() > 0) {
+	// // get the last ribbon band added to customize it
+	// JRibbonBand band = bands.getLast();
+	// }
+	// return this;
+	// }
 
 	/**
 	 * Adds a {@link RibbonContextualTaskGroup} comprised of the
@@ -1113,8 +1151,136 @@ public class RibbonFactory {
 	}
 
 	/**
+	 * Adds the <code>button</code> to the factory queue of
+	 * {@link JCommandButton}s and returns the factory for additional
+	 * modification or creation.
+	 * <p>
+	 * This is equivalent to calling
+	 * <code>addButton(name, icon, actionListener, CommandButtonKind.ACTION_ONLY, actionTooltip, null, null, isFlat)</code>.
+	 * 
+	 * @see #addButton(String, ResizableIcon, ActionListener, CommandButtonKind,
+	 *      RichTooltip, RichTooltip, PopupPanelCallback, boolean)
+	 * @param name
+	 *            button title (may contain any number of words)
+	 * @param icon
+	 *            button icon (may be <code>null</code>)
+	 * @param actionListener
+	 *            main action listener for this menu entry. If the entry kind is
+	 *            JCommandButton.CommandButtonKind.POPUP_ONLY, this listener
+	 *            will be ignored.
+	 * @param actionTooltip
+	 *            the rich tooltip for the action part of the button
+	 * @param isFlat
+	 *            <code>true</code> if flat, <code>false</code> if not flat
+	 * @return the ribbon factory
+	 */
+	public static JCommandButton createButtonTypeAction(String name,
+			ResizableIcon icon, ActionListener actionListener,
+			RichTooltip actionTooltip, boolean isFlat) {
+		return createButton(name, icon, actionListener,
+				CommandButtonKind.ACTION_ONLY, actionTooltip, null, null,
+				isFlat);
+	}
+
+	/**
 	 * Returns the command button customized with the specified arguments. The
-	 * queue is <em><b>not</b></em> cleared when this method is called.
+	 * queue is <em><b>not</b></em> modified when this method is called.
+	 * <p>
+	 * This is equivalent to calling
+	 * <code>createButton(name, icon, actionListener, CommandButtonKind.POPUP_ONLY, null, popupTooltip, null, isFlat)</code>.
+	 * 
+	 * @see #addButton(String, ResizableIcon, ActionListener, CommandButtonKind,
+	 *      RichTooltip, RichTooltip, PopupPanelCallback, boolean)
+	 * @param name
+	 *            button title (may contain any number of words)
+	 * @param icon
+	 *            button icon (may be <code>null</code>)
+	 * @param actionListener
+	 *            main action listener for this menu entry. If the entry kind is
+	 *            JCommandButton.CommandButtonKind.POPUP_ONLY, this listener
+	 *            will be ignored.
+	 * @param popupTooltip
+	 *            the rich tooltip for the popup part of the button
+	 * @param isFlat
+	 *            <code>true</code> if flat, <code>false</code> if not flat
+	 * @return the ribbon factory
+	 */
+	public static JCommandButton createButtonTypePopup(String name,
+			ResizableIcon icon, ActionListener actionListener,
+			RichTooltip popupTooltip, boolean isFlat) {
+		return createButton(name, icon, actionListener,
+				CommandButtonKind.POPUP_ONLY, null, popupTooltip, null, isFlat);
+	}
+
+	/**
+	 * Returns the command button customized with the specified arguments. The
+	 * queue is <em><b>not</b></em> modified when this method is called.
+	 * <p>
+	 * This is equivalent to calling
+	 * <code>createButton(name, icon, actionListener, CommandButtonKind.ACTION_AND_POPUP_MAIN_ACTION, actionTooltip, popupTooltip, null, isFlat)</code>.
+	 * 
+	 * @see #addButton(String, ResizableIcon, ActionListener, CommandButtonKind,
+	 *      RichTooltip, RichTooltip, PopupPanelCallback, boolean)
+	 * @param name
+	 *            button title (may contain any number of words)
+	 * @param icon
+	 *            button icon (may be <code>null</code>)
+	 * @param actionListener
+	 *            main action listener for this menu entry. If the entry kind is
+	 *            JCommandButton.CommandButtonKind.POPUP_ONLY, this listener
+	 *            will be ignored.
+	 * @param actionTooltip
+	 *            the rich tooltip for the action part of the button
+	 * @param popupTooltip
+	 *            the rich tooltip for the popup part of the button
+	 * @param isFlat
+	 *            <code>true</code> if flat, <code>false</code> if not flat
+	 * @return the ribbon factory
+	 */
+	public static JCommandButton createButtonTypeActionMain(String name,
+			ResizableIcon icon, ActionListener actionListener,
+			RichTooltip actionTooltip, RichTooltip popupTooltip, boolean isFlat) {
+		return createButton(name, icon, actionListener,
+				CommandButtonKind.ACTION_AND_POPUP_MAIN_ACTION, actionTooltip,
+				popupTooltip, null, isFlat);
+	}
+
+	/**
+	 * Returns the command button customized with the specified arguments. The
+	 * queue is <em><b>not</b></em> modified when this method is called.
+	 * <p>
+	 * This is equivalent to calling
+	 * <code>createButton(name, icon, actionListener, CommandButtonKind.ACTION_AND_POPUP_MAIN_POPUP, actionTooltip, popupTooltip, null, isFlat)</code>.
+	 * 
+	 * @see #addButton(String, ResizableIcon, ActionListener, CommandButtonKind,
+	 *      RichTooltip, RichTooltip, PopupPanelCallback, boolean)
+	 * @param name
+	 *            button title (may contain any number of words)
+	 * @param icon
+	 *            button icon (may be <code>null</code>)
+	 * @param actionListener
+	 *            main action listener for this menu entry. If the entry kind is
+	 *            JCommandButton.CommandButtonKind.POPUP_ONLY, this listener
+	 *            will be ignored.
+	 * @param actionTooltip
+	 *            the rich tooltip for the action part of the button
+	 * @param popupTooltip
+	 *            the rich tooltip for the popup part of the button
+	 * @param isFlat
+	 *            <code>true</code> if flat, <code>false</code> if not flat
+	 * @return the ribbon factory
+	 */
+	public static JCommandButton createButtonTypePopupMain(String name,
+			ResizableIcon icon, ActionListener actionListener,
+			RichTooltip actionTooltip, RichTooltip popupTooltip, boolean isFlat) {
+		return createButton(name, icon, actionListener,
+				CommandButtonKind.ACTION_AND_POPUP_MAIN_POPUP, actionTooltip,
+				popupTooltip, null, isFlat);
+	}
+
+	/**
+	 * Returns the command button customized with the specified arguments. The
+	 * queue is <em><b>not</b></em> modified when this method is called.
 	 * 
 	 * @param name
 	 *            button title (may contain any number of words)

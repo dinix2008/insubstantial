@@ -4,10 +4,11 @@ import java.awt.Color;
 
 import junit.framework.TestCase;
 
-//import static org.junit.Assert.*;
-
 import org.junit.Before;
 import org.junit.Test;
+import org.pushingpixels.flamingo.api.common.JCommandButton;
+import org.pushingpixels.flamingo.api.common.JCommandButton.CommandButtonKind;
+import org.pushingpixels.flamingo.api.common.icon.ResizableIcon;
 import org.pushingpixels.flamingo.api.ribbon.JRibbon;
 import org.pushingpixels.flamingo.api.ribbon.RibbonFactory;
 import org.pushingpixels.flamingo.internal.ui.ribbon.JBandControlPanel;
@@ -47,6 +48,39 @@ public class RibbonFactoryTest extends TestCase {
 			assertEquals(0, r.getTaskCount());
 			assertEquals(i + 1, r.getContextualTaskGroupCount());
 		}
+	}
+
+	/**
+	 * Tests that each <code>addButton</code> method in the factory successfully
+	 * adds a button to the ribbon
+	 */
+	@Test
+	public void testAddButtons() {
+		assertEquals(0, ribbon.getButtonsQueue().size());
+		ribbon.addButton(new JCommandButton("Test"));
+		assertEquals(1, ribbon.getButtonsQueue().size());
+		ribbon.addButton((ResizableIcon) null, null);
+		assertEquals(2, ribbon.getButtonsQueue().size());
+		ribbon.addButton("Test", null);
+		assertEquals(3, ribbon.getButtonsQueue().size());
+		ribbon.addButton("Test", null, null);
+		assertEquals(4, ribbon.getButtonsQueue().size());
+		ribbon.addButton("Test", null, null, true);
+		assertEquals(5, ribbon.getButtonsQueue().size());
+		ribbon.addButton("Test", null, null, CommandButtonKind.ACTION_ONLY);
+		assertEquals(6, ribbon.getButtonsQueue().size());
+		ribbon.addButton("Test", null, null, CommandButtonKind.ACTION_ONLY, true);
+		assertEquals(7, ribbon.getButtonsQueue().size());
+		ribbon.addButton("Test", null, null, CommandButtonKind.ACTION_ONLY, null, null, null, true);
+		assertEquals(8, ribbon.getButtonsQueue().size());
+		ribbon.addButtonTypeAction("Test", null, null, null);
+		assertEquals(9, ribbon.getButtonsQueue().size());
+		ribbon.addButtonTypeActionMain("test", null, null, null, null);
+		assertEquals(10, ribbon.getButtonsQueue().size());
+		ribbon.addButtonTypePopup("Test", null, null, null);
+		assertEquals(11, ribbon.getButtonsQueue().size());
+		ribbon.addButtonTypePopupMain("Test", null, null, null, null);
+		assertEquals(12, ribbon.getButtonsQueue().size());
 	}
 
 	/** Tests that buttons are added to a band successfully */

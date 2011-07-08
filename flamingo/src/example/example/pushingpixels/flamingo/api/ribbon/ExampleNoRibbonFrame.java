@@ -14,7 +14,6 @@ import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
-import org.pushingpixels.flamingo.api.common.JCommandButton;
 import org.pushingpixels.flamingo.api.common.icon.ImageWrapperResizableIcon;
 import org.pushingpixels.flamingo.api.common.icon.ResizableIcon;
 import org.pushingpixels.flamingo.api.ribbon.JRibbon;
@@ -44,14 +43,6 @@ public class ExampleNoRibbonFrame extends JFrame {
 		setTitle("Example Ribbon Frame");
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setRibbon(createApplicationRibbon());
-		getRibbon()
-				.addTaskbarComponent(
-						new JCommandButton(
-								getResizableIconFromResource("example/resources/cut.png")));
-		getRibbon()
-				.addTaskbarComponent(
-						new JCommandButton(
-								getResizableIconFromResource("example/resources/paste.png")));
 	}
 
 	/**
@@ -88,6 +79,10 @@ public class ExampleNoRibbonFrame extends JFrame {
 						System.out.println("Help");
 					}
 				});
+
+		factory.addTaskbarButton(RibbonFactory.createButtonTypeAction("Test",
+				getResizableIconFromResource("example/resources/cut.png"),
+				null, null, true));
 
 		// build application menu
 		factory.newSubMenuGroup();
@@ -184,8 +179,10 @@ public class ExampleNoRibbonFrame extends JFrame {
 						// TODO handle task visibility
 						if (getRibbon().isVisible(extra3RibbonTasks)) {
 							getRibbon().setVisible(extra3RibbonTasks, false);
+							ribbon.setApplicationIcon(getResizableIconFromResource("example/resources/erichschroeter.png"));
 						} else {
 							getRibbon().setVisible(extra3RibbonTasks, true);
+							ribbon.setApplicationIcon(getResizableIconFromResource("example/resources/help.png"));
 						}
 					}
 				});
@@ -251,7 +248,6 @@ public class ExampleNoRibbonFrame extends JFrame {
 					@Override
 					public void actionPerformed(ActionEvent e) {
 						// TODO handle copy
-						ribbon.setApplicationIcon(getResizableIconFromResource("example/resources/help.png"));
 					}
 				});
 		factory.addButton("Paste",
