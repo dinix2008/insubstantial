@@ -20,7 +20,7 @@ import org.pushingpixels.flamingo.api.ribbon.JRibbon;
 import org.pushingpixels.flamingo.api.ribbon.JRibbonFrame;
 import org.pushingpixels.flamingo.api.ribbon.RibbonContextualTaskGroup;
 import org.pushingpixels.flamingo.api.ribbon.RibbonElementPriority;
-import org.pushingpixels.flamingo.api.ribbon.RibbonFactory;
+import org.pushingpixels.flamingo.api.ribbon.RibbonBuilder;
 
 @SuppressWarnings("serial")
 public class ExampleNoRibbonFrame extends JFrame {
@@ -66,12 +66,12 @@ public class ExampleNoRibbonFrame extends JFrame {
 	}
 
 	/**
-	 * Uses a {@link RibbonFactory} to build a {@link JRibbon}.
+	 * Uses a {@link RibbonBuilder} to build a {@link JRibbon}.
 	 * 
 	 * @return the application ribbon
 	 */
 	private JRibbon createApplicationRibbon() {
-		RibbonFactory factory = new RibbonFactory()
+		RibbonBuilder factory = new RibbonBuilder()
 				.withHelp(new ActionListener() {
 
 					@Override
@@ -80,7 +80,7 @@ public class ExampleNoRibbonFrame extends JFrame {
 					}
 				});
 
-		factory.addTaskbarButton(RibbonFactory.createButtonTypeAction("Test",
+		factory.addTaskbarButton(RibbonBuilder.createButtonTypeAction("Test",
 				getResizableIconFromResource("example/resources/cut.png"),
 				null, null, true));
 

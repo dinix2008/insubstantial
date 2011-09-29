@@ -19,11 +19,11 @@ import org.pushingpixels.flamingo.api.ribbon.JRibbon;
 import org.pushingpixels.flamingo.api.ribbon.JRibbonFrame;
 import org.pushingpixels.flamingo.api.ribbon.RibbonContextualTaskGroup;
 import org.pushingpixels.flamingo.api.ribbon.RibbonElementPriority;
-import org.pushingpixels.flamingo.api.ribbon.RibbonFactory;
+import org.pushingpixels.flamingo.api.ribbon.RibbonBuilder;
 
 /**
  * The <code>ExampleRibbonFrame</code> class exists to show users how to use the
- * {@link RibbonFactory} with a {@link JRibbonFrame}. Not all methods provided
+ * {@link RibbonBuilder} with a {@link JRibbonFrame}. Not all methods provided
  * by the <code>RibbonFactory</code> are used, but enough to give a decent
  * example for new users.
  * 
@@ -58,12 +58,12 @@ public class ExampleRibbonFrame extends JRibbonFrame {
 	}
 
 	/**
-	 * Uses a {@link RibbonFactory} to build a {@link JRibbon}.
+	 * Uses a {@link RibbonBuilder} to build a {@link JRibbon}.
 	 * 
 	 * @return the application ribbon
 	 */
 	private JRibbon createApplicationRibbon(JRibbon ribbon) {
-		RibbonFactory factory = new RibbonFactory(ribbon)
+		RibbonBuilder factory = new RibbonBuilder(ribbon)
 				.withHelp(new ActionListener() {
 
 					@Override

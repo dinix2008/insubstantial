@@ -5,7 +5,7 @@ import junit.framework.TestCase;
 import org.junit.Test;
 import org.pushingpixels.flamingo.api.common.icon.ResizableIcon;
 import org.pushingpixels.flamingo.api.ribbon.JRibbon;
-import org.pushingpixels.flamingo.api.ribbon.RibbonFactory;
+import org.pushingpixels.flamingo.api.ribbon.RibbonBuilder;
 
 public class JRibbonTest extends TestCase {
 
@@ -19,7 +19,7 @@ public class JRibbonTest extends TestCase {
 	
 	@Test
 	public void testIconChanges() {
-		ResizableIcon icon = RibbonFactory.getResizableIconFromResource("test/resources/erichschroeter.png");
+		ResizableIcon icon = RibbonBuilder.getResizableIconFromResource("test/resources/erichschroeter.png");
 		
 		// test the mutator
 		ribbon.setApplicationIcon(icon);

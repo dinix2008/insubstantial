@@ -30,28 +30,28 @@ import org.pushingpixels.flamingo.api.ribbon.resize.CoreRibbonResizePolicies;
 import org.pushingpixels.flamingo.api.ribbon.resize.RibbonBandResizePolicy;
 
 /**
- * The <code>RibbonFactory</code> is an object which implements the <a
+ * The <code>RibbonBuilder</code> is an object which implements the <a
  * href="http://en.wikipedia.org/wiki/Builder_pattern">Builder Pattern</a>. The
- * factory provides methods for customizing a {@link JRibbon}. By using this
- * factory, you may save the amount of code you write and improve the
+ * builder provides methods for customizing a {@link JRibbon}. By using this
+ * builder, you may save the amount of code you write and improve the
  * readability of your code.
  * <p>
  * Methods are provided for adding items to the ribbon being created by the
- * factory. After everything has been added and customization is finished, the
+ * builder. After everything has been added and customization is finished, the
  * ribbon is accessed via the {@link #getRibbon()} method.
  * <p>
- * Due to the way the Flamingo ribbon API was implemented the factory utilizes
+ * Due to the way the Flamingo ribbon API was implemented the builder utilizes
  * queues when adding components such as <code>JRibbonBand</code>,
  * <code>JCommandButton</code>, <code>RibbonApplicationMenuEntrySecondary</code>
  * , and <em>contextual</em> <code>RibbonTask</code>s.
  * <p>
- * <em><b>NOTE:</b> It is realized that the factory doesn't provide all features available if
+ * <em><b>NOTE:</b> It is realized that the builder doesn't provide all features available if
  * customizing a ribbon from scratch, but enhancements are intended to be added
  * in the future.</em>
  * 
  * @author Erich Schroeter
  */
-public class RibbonFactory {
+public class RibbonBuilder {
 
 	/** The ribbon to be returns after customization */
 	private JRibbon ribbon;
@@ -74,28 +74,28 @@ public class RibbonFactory {
 	private LinkedList<RibbonTask> contextualTasks;
 
 	/**
-	 * Constructs a default <code>RibbonFactory</code> to build a
+	 * Constructs a default <code>RibbonBuilder</code> to build a
 	 * {@link JRibbon}.
 	 * <p>
-	 * A default <code>JRibbon</code> is initialized and all factory queues are
+	 * A default <code>JRibbon</code> is initialized and all builder queues are
 	 * initialized. After all customization is finished the ribbon is accessed
 	 * via the {@link #getRibbon()} method.
 	 */
-	public RibbonFactory() {
+	public RibbonBuilder() {
 		this(new JRibbon());
 	}
 
 	/**
-	 * Constructs a <code>RibbonFactory</code> to customize the specified
+	 * Constructs a <code>RibbonBuilder</code> to customize the specified
 	 * <code>ribbon</code>.
 	 * <p>
-	 * All factory queues are initialized. After all customization is finished
+	 * All builder queues are initialized. After all customization is finished
 	 * the ribbon is accessed via the {@link #getRibbon()} method.
 	 * 
 	 * @param ribbon
 	 *            the existing ribbon
 	 */
-	public RibbonFactory(JRibbon ribbon) {
+	public RibbonBuilder(JRibbon ribbon) {
 		this.ribbon = ribbon;
 		bands = new LinkedList<JRibbonBand>();
 		commandButtons = new LinkedList<JCommandButton>();
@@ -108,7 +108,7 @@ public class RibbonFactory {
 	}
 
 	/**
-	 * Adds the <code>button</code> to the ribbon and returns the ribbon factory
+	 * Adds the <code>button</code> to the ribbon and returns the ribbon builder
 	 * for additional modification or creation.
 	 * <p>
 	 * Taskbar components are small components placed to the right of the
@@ -120,16 +120,16 @@ public class RibbonFactory {
 	 * @see #addTaskbarComponent(Component)
 	 * @param button
 	 *            the button to add
-	 * @return the ribbon factory
+	 * @return the ribbon builder
 	 */
-	public RibbonFactory addTaskbarButton(JCommandButton button) {
+	public RibbonBuilder addTaskbarButton(JCommandButton button) {
 		ribbon.addTaskbarComponent(button);
 		return this;
 	}
 
 	/**
 	 * Adds the <code>component</code> to the ribbon and returns the ribbon
-	 * factory for additional modification or creation.
+	 * builder for additional modification or creation.
 	 * <p>
 	 * Taskbar components are small components placed to the right of the
 	 * application menu. These components usually perform an action common among
@@ -137,14 +137,14 @@ public class RibbonFactory {
 	 * 
 	 * @param component
 	 *            the <code>Component</code> to add
-	 * @return the ribbon factory
+	 * @return the ribbon builder
 	 */
-	public RibbonFactory addTaskbarComponent(Component component) {
+	public RibbonBuilder addTaskbarComponent(Component component) {
 		ribbon.addTaskbarComponent(component);
 		return this;
 	}
 
-	// public RibbonFactory createGallery(String name) {
+	// public RibbonBuilder createGallery(String name) {
 	// if (bands.size() > 0) {
 	// // get the last ribbon band added to customize it
 	// JRibbonBand band = bands.getLast();
@@ -154,8 +154,8 @@ public class RibbonFactory {
 
 	/**
 	 * Adds a {@link RibbonContextualTaskGroup} comprised of the
-	 * <code>RibbonTask</code>s in the factory queue to the ribbon and returns
-	 * the ribbon factory for additional modification or creation.
+	 * <code>RibbonTask</code>s in the builder queue to the ribbon and returns
+	 * the ribbon builder for additional modification or creation.
 	 * <p>
 	 * If no contextual ribbon tasks are in the queue, nothing occurs.
 	 * <p>
@@ -166,16 +166,16 @@ public class RibbonFactory {
 	 *            the title
 	 * @param color
 	 *            the hue color of the task group
-	 * @return the ribbon factory
+	 * @return the ribbon builder
 	 */
-	public RibbonFactory addContextualTaskGroup(String title) {
+	public RibbonBuilder addContextualTaskGroup(String title) {
 		return addContextualTaskGroup(title, Color.BLUE);
 	}
 
 	/**
 	 * Adds a {@link RibbonContextualTaskGroup} comprised of the
-	 * <code>RibbonTask</code>s in the factory queue to the ribbon and returns
-	 * the ribbon factory for additional modification or creation. The
+	 * <code>RibbonTask</code>s in the builder queue to the ribbon and returns
+	 * the ribbon builder for additional modification or creation. The
 	 * contextual ribbon task queue is cleared after adding the ribbon task
 	 * group.
 	 * <p>
@@ -186,9 +186,9 @@ public class RibbonFactory {
 	 *            the title
 	 * @param color
 	 *            the hue color of the task group
-	 * @return the ribbon factory
+	 * @return the ribbon builder
 	 */
-	public RibbonFactory addContextualTaskGroup(String title, Color color) {
+	public RibbonBuilder addContextualTaskGroup(String title, Color color) {
 		if (contextualTasks.size() > 0) {
 			RibbonTask[] _tasks = new RibbonTask[contextualTasks.size()];
 			RibbonContextualTaskGroup group = new RibbonContextualTaskGroup(
@@ -200,29 +200,29 @@ public class RibbonFactory {
 	}
 
 	/**
-	 * Adds the <code>group</code> to the ribbon and returns the ribbon factory
+	 * Adds the <code>group</code> to the ribbon and returns the ribbon builder
 	 * for additional modification or creation.
 	 * 
 	 * @see #getContextualTaskGroup(String, Color)
 	 * @param group
 	 *            the contextual ribbon group to add
-	 * @return the ribbon factory
+	 * @return the ribbon builder
 	 */
-	public RibbonFactory addContextualTaskGroup(RibbonContextualTaskGroup group) {
+	public RibbonBuilder addContextualTaskGroup(RibbonContextualTaskGroup group) {
 		ribbon.addContextualTaskGroup(group);
 		return this;
 	}
 
 	/**
 	 * Returns the contextual ribbon task group comprised of the
-	 * <code>RibbonTask</code>s in the factory queue. The queue is
+	 * <code>RibbonTask</code>s in the builder queue. The queue is
 	 * <em><b>not</b></em> cleared when this method is called.
 	 * 
 	 * @param title
 	 *            the title
 	 * @param color
 	 *            the hue color of the task group
-	 * @return the ribbon factory
+	 * @return the ribbon builder
 	 */
 	public RibbonContextualTaskGroup getContextualTaskGroup(String title,
 			Color color) {
@@ -236,7 +236,7 @@ public class RibbonFactory {
 	}
 
 	/**
-	 * Clears the factory queue of contextual ribbon tasks to be added to the
+	 * Clears the builder queue of contextual ribbon tasks to be added to the
 	 * next {@link RibbonContextualTaskGroup}.
 	 */
 	public void clearContextualTaskGroupsQueue() {
@@ -245,7 +245,7 @@ public class RibbonFactory {
 
 	/**
 	 * Adds the <code>task</code> to the queue of {@link RibbonTask}s to be
-	 * added to a contextual ribbon task group and returns the ribbon factory
+	 * added to a contextual ribbon task group and returns the ribbon builder
 	 * for additional modification or creation.
 	 * <p>
 	 * Contextual <code>RibbonTask</code>s are not added to the ribbon until a
@@ -258,15 +258,15 @@ public class RibbonFactory {
 	 * @see #addContextualTask(String, String)
 	 * @param title
 	 *            the title to display at the top of the ribbon
-	 * @return the ribbon factory
+	 * @return the ribbon builder
 	 */
-	public RibbonFactory addContextualTask(String title) {
+	public RibbonBuilder addContextualTask(String title) {
 		return addContextualTask(title, null);
 	}
 
 	/**
 	 * Adds the <code>task</code> to the queue of {@link RibbonTask}s to be
-	 * added to a contextual ribbon task group and returns the ribbon factory
+	 * added to a contextual ribbon task group and returns the ribbon builder
 	 * for additional modification or creation.
 	 * <p>
 	 * Contextual <code>RibbonTask</code>s are not added to the ribbon until a
@@ -280,9 +280,9 @@ public class RibbonFactory {
 	 *            the title to display at the top of the ribbon
 	 * @param keyTip
 	 *            the key tip to focus the task
-	 * @return the ribbon factory
+	 * @return the ribbon builder
 	 */
-	public RibbonFactory addContextualTask(String title, String keyTip) {
+	public RibbonBuilder addContextualTask(String title, String keyTip) {
 		JRibbonBand[] _bands = new JRibbonBand[bands.size()];
 		RibbonTask task = new RibbonTask(title, bands.toArray(_bands));
 		task.setKeyTip(keyTip);
@@ -293,7 +293,7 @@ public class RibbonFactory {
 
 	/**
 	 * Adds the <code>task</code> to the queue of {@link RibbonTask}s to be
-	 * added to a contextual ribbon task group and returns the ribbon factory
+	 * added to a contextual ribbon task group and returns the ribbon builder
 	 * for additional modification or creation.
 	 * <p>
 	 * Contextual <code>RibbonTask</code>s are not added to the ribbon until a
@@ -304,16 +304,16 @@ public class RibbonFactory {
 	 * @see #addContextualTaskGroup(String, Color)
 	 * @param task
 	 *            the ribbon task to be added to a contextual ribbon task group
-	 * @return the ribbon factory
+	 * @return the ribbon builder
 	 */
-	public RibbonFactory addContextualTask(RibbonTask task) {
+	public RibbonBuilder addContextualTask(RibbonTask task) {
 		contextualTasks.add(task);
 		return this;
 	}
 
 	/**
 	 * Adds the <code>item</code> to the ribbon application menu and returns the
-	 * factory for additional modification or creation.
+	 * builder for additional modification or creation.
 	 * <p>
 	 * This is equivalent to calling
 	 * <code>addFooterMenuItem(text, null, actionListener)</code>.
@@ -323,16 +323,16 @@ public class RibbonFactory {
 	 *            the text of this menu entry (must not be <code>null</code>)
 	 * @param actionListener
 	 *            the action listener for this footer entry
-	 * @return the ribbon factory
+	 * @return the ribbon builder
 	 */
-	public RibbonFactory addFooterMenuItem(String text,
+	public RibbonBuilder addFooterMenuItem(String text,
 			ActionListener actionListener) {
 		return addFooterMenuItem(text, null, actionListener);
 	}
 
 	/**
 	 * Adds the <code>item</code> to the ribbon application menu and returns the
-	 * factory for additional modification or creation.
+	 * builder for additional modification or creation.
 	 * <p>
 	 * This is equivalent to calling
 	 * <code>addFooterMenuItem("", icon, actionListener)</code>.
@@ -342,16 +342,16 @@ public class RibbonFactory {
 	 *            the icon of this menu entry (must not be <code>null</code>)
 	 * @param actionListener
 	 *            the action listener for this footer entry
-	 * @return the ribbon factory
+	 * @return the ribbon builder
 	 */
-	public RibbonFactory addFooterMenuItem(ResizableIcon icon,
+	public RibbonBuilder addFooterMenuItem(ResizableIcon icon,
 			ActionListener actionListener) {
 		return addFooterMenuItem("", icon, actionListener);
 	}
 
 	/**
 	 * Adds the <code>item</code> to the ribbon application menu and returns the
-	 * factory for additional modification or creation.
+	 * builder for additional modification or creation.
 	 * <p>
 	 * This is equivalent to calling
 	 * <code>addFooterMenuItem(text, icon, null)</code>.
@@ -361,15 +361,15 @@ public class RibbonFactory {
 	 *            the text of this menu entry (must not be <code>null</code>)
 	 * @param icon
 	 *            the icon of this menu entry (must not be <code>null</code>)
-	 * @return the ribbon factory
+	 * @return the ribbon builder
 	 */
-	public RibbonFactory addFooterMenuItem(String text, ResizableIcon icon) {
+	public RibbonBuilder addFooterMenuItem(String text, ResizableIcon icon) {
 		return addFooterMenuItem(text, icon, null);
 	}
 
 	/**
 	 * Adds the <code>item</code> to the ribbon application menu and returns the
-	 * factory for additional modification or creation.
+	 * builder for additional modification or creation.
 	 * <p>
 	 * A new <code>RibbonApplicationMenuEntryFooter</code> is created with the
 	 * given parameters and passed to the
@@ -382,9 +382,9 @@ public class RibbonFactory {
 	 *            the icon of this menu entry (must not be <code>null</code>)
 	 * @param actionListener
 	 *            the action listener for this footer entry
-	 * @return the ribbon factory
+	 * @return the ribbon builder
 	 */
-	public RibbonFactory addFooterMenuItem(String text, ResizableIcon icon,
+	public RibbonBuilder addFooterMenuItem(String text, ResizableIcon icon,
 			ActionListener actionListener) {
 		RibbonApplicationMenuEntryFooter item = new RibbonApplicationMenuEntryFooter(
 				icon, text, actionListener);
@@ -393,20 +393,20 @@ public class RibbonFactory {
 
 	/**
 	 * Adds the <code>item</code> to the ribbon application menu and returns the
-	 * factory for additional modification or creation.
+	 * builder for additional modification or creation.
 	 * 
 	 * @param item
 	 *            the footer menu item
-	 * @return the ribbon factory
+	 * @return the ribbon builder
 	 */
-	public RibbonFactory addFooterMenuItem(RibbonApplicationMenuEntryFooter item) {
+	public RibbonBuilder addFooterMenuItem(RibbonApplicationMenuEntryFooter item) {
 		applicationMenu.addFooterEntry(item);
 		return this;
 	}
 
 	/**
-	 * Adds the <code>item</code> to the factory queue of
-	 * {@link RibbonApplicationMenuEntrySecondary}s and returns the factory for
+	 * Adds the <code>item</code> to the builder queue of
+	 * {@link RibbonApplicationMenuEntrySecondary}s and returns the builder for
 	 * additional modification or creation.
 	 * <p>
 	 * This is equivalent to calling
@@ -417,17 +417,17 @@ public class RibbonFactory {
 	 *      CommandButtonKind)
 	 * @param text
 	 *            the text of this menu entry (must not be <code>null</code>)
-	 * @return the ribbon factory
+	 * @return the ribbon builder
 	 */
-	public RibbonFactory addSubMenuItem(String text) {
+	public RibbonBuilder addSubMenuItem(String text) {
 		return addSubMenuItem(text, getResizableIconFromResource(getClass()
 				.getResource("/res/images/blank.png")), null,
 				CommandButtonKind.ACTION_ONLY);
 	}
 
 	/**
-	 * Adds the <code>item</code> to the factory queue of
-	 * {@link RibbonApplicationMenuEntrySecondary}s and returns the factory for
+	 * Adds the <code>item</code> to the builder queue of
+	 * {@link RibbonApplicationMenuEntrySecondary}s and returns the builder for
 	 * additional modification or creation.
 	 * <p>
 	 * This is equivalent to calling
@@ -439,15 +439,15 @@ public class RibbonFactory {
 	 *            the text of this menu entry (must not be <code>null</code>)
 	 * @param icon
 	 *            the icon of this menu entry (must not be <code>null</code>)
-	 * @return the ribbon factory
+	 * @return the ribbon builder
 	 */
-	public RibbonFactory addSubMenuItem(String text, ResizableIcon icon) {
+	public RibbonBuilder addSubMenuItem(String text, ResizableIcon icon) {
 		return addSubMenuItem(text, icon, null, CommandButtonKind.ACTION_ONLY);
 	}
 
 	/**
-	 * Adds the <code>item</code> to the factory queue of
-	 * {@link RibbonApplicationMenuEntrySecondary}s and returns the factory for
+	 * Adds the <code>item</code> to the builder queue of
+	 * {@link RibbonApplicationMenuEntrySecondary}s and returns the builder for
 	 * additional modification or creation.
 	 * <p>
 	 * This is equivalent to calling
@@ -463,17 +463,17 @@ public class RibbonFactory {
 	 *            main action listener for this menu entry. If the entry kind is
 	 *            JCommandButton.CommandButtonKind.POPUP_ONLY, this listener
 	 *            will be ignored.
-	 * @return the ribbon factory
+	 * @return the ribbon builder
 	 */
-	public RibbonFactory addSubMenuItem(String text, ResizableIcon icon,
+	public RibbonBuilder addSubMenuItem(String text, ResizableIcon icon,
 			ActionListener actionListener) {
 		return addSubMenuItem(text, icon, actionListener,
 				CommandButtonKind.ACTION_ONLY);
 	}
 
 	/**
-	 * Adds the <code>item</code> to the factory queue of
-	 * {@link RibbonApplicationMenuEntrySecondary}s and returns the factory for
+	 * Adds the <code>item</code> to the builder queue of
+	 * {@link RibbonApplicationMenuEntrySecondary}s and returns the builder for
 	 * additional modification or creation.
 	 * <p>
 	 * A new <code>RibbonApplicationMenuEntrySecondary</code> is created with
@@ -492,9 +492,9 @@ public class RibbonFactory {
 	 * @param kind
 	 *            the kind of the command button that will represent this menu
 	 *            entry. (must not be <code>null</code>)
-	 * @return the ribbon factory
+	 * @return the ribbon builder
 	 */
-	public RibbonFactory addSubMenuItem(String text, ResizableIcon icon,
+	public RibbonBuilder addSubMenuItem(String text, ResizableIcon icon,
 			ActionListener actionListener, CommandButtonKind kind) {
 		RibbonApplicationMenuEntrySecondary item = new RibbonApplicationMenuEntrySecondary(
 				icon, text, actionListener, kind);
@@ -502,27 +502,27 @@ public class RibbonFactory {
 	}
 
 	/**
-	 * Adds the <code>item</code> to the factory queue of
-	 * {@link RibbonApplicationMenuEntrySecondary}s and returns the factory for
+	 * Adds the <code>item</code> to the builder queue of
+	 * {@link RibbonApplicationMenuEntrySecondary}s and returns the builder for
 	 * additional modification or creation.
 	 * <p>
 	 * Sub menu items are not added to a primary menu item until a primary menu
-	 * item is created. When a primary menu item is created with the factory
-	 * methods the factory queue of
+	 * item is created. When a primary menu item is created with the builder
+	 * methods the builder queue of
 	 * <code>RibbonApplicationMenuEntrySecondary</code>s are emptied into the
 	 * newly created <code>RibbonApplicationMenuEntryPrimary</code>.
 	 * 
 	 * @param item
 	 *            the sub menu item
-	 * @return the ribbon factory
+	 * @return the ribbon builder
 	 */
-	public RibbonFactory addSubMenuItem(RibbonApplicationMenuEntrySecondary item) {
+	public RibbonBuilder addSubMenuItem(RibbonApplicationMenuEntrySecondary item) {
 		subMenuItems.add(item);
 		return this;
 	}
 
 	/**
-	 * Prepares the factory for the next sub menu to be added to the ribbon
+	 * Prepares the builder for the next sub menu to be added to the ribbon
 	 * application menu. When
 	 * {@link #addMenuItem(RibbonApplicationMenuEntryPrimary)} is executed, the
 	 * {@link #nextSubMenuTitle} gets set to <code>null</code>.
@@ -530,23 +530,23 @@ public class RibbonFactory {
 	 * This is equivalent to calling <code>newSubMenuGroup("")</code>.
 	 * 
 	 * @see #newSubMenuGroup(String)
-	 * @return the ribbon factory
+	 * @return the ribbon builder
 	 */
-	public RibbonFactory newSubMenuGroup() {
+	public RibbonBuilder newSubMenuGroup() {
 		return newSubMenuGroup("");
 	}
 
 	/**
-	 * Prepares the factory for the next sub menu to be added to the ribbon
+	 * Prepares the builder for the next sub menu to be added to the ribbon
 	 * application menu. When
 	 * {@link #addMenuItem(RibbonApplicationMenuEntryPrimary)} is executed, the
 	 * {@link #nextSubMenuTitle} gets set to <code>null</code>.
 	 * 
 	 * @param title
 	 *            the next sub menu title
-	 * @return the ribbon factory
+	 * @return the ribbon builder
 	 */
-	public RibbonFactory newSubMenuGroup(String title) {
+	public RibbonBuilder newSubMenuGroup(String title) {
 		nextSubMenuTitle = title;
 		return this;
 	}
@@ -564,15 +564,15 @@ public class RibbonFactory {
 	 * <p>
 	 * <em><b>TODO</b> put sub menu items in a <code>JSrollPane</code></em>
 	 * 
-	 * @return the ribbon factory
+	 * @return the ribbon builder
 	 */
-	public RibbonFactory addSpacerMenuItem() {
+	public RibbonBuilder addSpacerMenuItem() {
 		return addMenuItem("", null, null, CommandButtonKind.ACTION_ONLY);
 	}
 
 	/**
 	 * Adds the <code>item</code> to the ribbon application menu and returns the
-	 * factory for additional modification or creation.
+	 * builder for additional modification or creation.
 	 * <p>
 	 * This is equivalent to calling
 	 * 
@@ -582,12 +582,12 @@ public class RibbonFactory {
 	 *      CommandButtonKind)
 	 * @param text
 	 *            the text of this menu entry (must not be <code>null</code>)
-	 * @return the ribbon factory
+	 * @return the ribbon builder
 	 */
-	public RibbonFactory addMenuItem(String text) {
+	public RibbonBuilder addMenuItem(String text) {
 		return addMenuItem(
 				text,
-				getResizableIconFromResource(RibbonFactory.class
+				getResizableIconFromResource(RibbonBuilder.class
 						.getClassLoader().getResource(
 								"example/resources/blank.png")), null,
 				CommandButtonKind.POPUP_ONLY);
@@ -595,7 +595,7 @@ public class RibbonFactory {
 
 	/**
 	 * Adds the <code>item</code> to the ribbon application menu and returns the
-	 * factory for additional modification or creation.
+	 * builder for additional modification or creation.
 	 * <p>
 	 * This is equivalent to calling
 	 * <code>addMenuItem(text, icon, null, CommandButtonKind.POPUP_ONLY)</code>.
@@ -606,15 +606,15 @@ public class RibbonFactory {
 	 *            the text of this menu entry (must not be <code>null</code>)
 	 * @param icon
 	 *            the icon of this menu entry (must not be <code>null</code>)
-	 * @return the ribbon factory
+	 * @return the ribbon builder
 	 */
-	public RibbonFactory addMenuItem(String text, ResizableIcon icon) {
+	public RibbonBuilder addMenuItem(String text, ResizableIcon icon) {
 		return addMenuItem(text, icon, null, CommandButtonKind.POPUP_ONLY);
 	}
 
 	/**
 	 * Adds the <code>item</code> to the ribbon application menu and returns the
-	 * factory for additional modification or creation.
+	 * builder for additional modification or creation.
 	 * <p>
 	 * This is equivalent to calling
 	 * <code>addMenuItem(text, icon, actionListener, CommandButtonKind.ACTION_ONLY)</code>.
@@ -629,9 +629,9 @@ public class RibbonFactory {
 	 *            main action listener for this menu entry. If the entry kind is
 	 *            JCommandButton.CommandButtonKind.POPUP_ONLY, this listener
 	 *            will be ignored.
-	 * @return the ribbon factory
+	 * @return the ribbon builder
 	 */
-	public RibbonFactory addMenuItem(String text, ResizableIcon icon,
+	public RibbonBuilder addMenuItem(String text, ResizableIcon icon,
 			ActionListener actionListener) {
 		return addMenuItem(text, icon, actionListener,
 				CommandButtonKind.ACTION_ONLY);
@@ -639,7 +639,7 @@ public class RibbonFactory {
 
 	/**
 	 * Adds the <code>item</code> to the ribbon application menu and returns the
-	 * factory for additional modification or creation.
+	 * builder for additional modification or creation.
 	 * <p>
 	 * A new <code>RibbonApplicationMenuEntryPrimary</code> is created with the
 	 * given parameters and passed to the
@@ -656,9 +656,9 @@ public class RibbonFactory {
 	 * @param kind
 	 *            the kind of the command button that will represent this menu
 	 *            entry. (must not be <code>null</code>)
-	 * @return the ribbon factory
+	 * @return the ribbon builder
 	 */
-	public RibbonFactory addMenuItem(String text, ResizableIcon icon,
+	public RibbonBuilder addMenuItem(String text, ResizableIcon icon,
 			ActionListener actionListener, CommandButtonKind kind) {
 		RibbonApplicationMenuEntryPrimary item = new RibbonApplicationMenuEntryPrimary(
 				icon, text, actionListener, kind);
@@ -667,11 +667,11 @@ public class RibbonFactory {
 
 	/**
 	 * Adds the <code>item</code> to the ribbon application menu and returns the
-	 * factory for additional modification or creation.
+	 * builder for additional modification or creation.
 	 * <p>
 	 * Due to limitations of {@link RibbonApplicationMenuEntryPrimary} we cannot
 	 * dynamically add sub menu items to a primary menu item. Instead use the
-	 * factory methods to add sub menu items to the factory queue and when a
+	 * builder methods to add sub menu items to the builder queue and when a
 	 * primary menu item is added the queue is emptied, putting all the
 	 * {@link RibbonApplicationMenuEntrySecondary}s in the new task.
 	 * <p>
@@ -682,9 +682,9 @@ public class RibbonFactory {
 	 * @see #clearSubMenuItemsQueue()
 	 * @param item
 	 *            the menu item
-	 * @return the ribbon factory
+	 * @return the ribbon builder
 	 */
-	public RibbonFactory addMenuItem(RibbonApplicationMenuEntryPrimary item) {
+	public RibbonBuilder addMenuItem(RibbonApplicationMenuEntryPrimary item) {
 		if (nextSubMenuTitle != null) {
 			RibbonApplicationMenuEntrySecondary[] subItems = new RibbonApplicationMenuEntrySecondary[subMenuItems
 					.size()];
@@ -708,7 +708,7 @@ public class RibbonFactory {
 	}
 
 	/**
-	 * Clears the factory queue of sub menu items to be added to the next
+	 * Clears the builder queue of sub menu items to be added to the next
 	 * {@link RibbonApplicationMenuEntryPrimary}.
 	 */
 	public void clearSubMenuItemsQueue() {
@@ -717,12 +717,12 @@ public class RibbonFactory {
 
 	/**
 	 * Sets the ribbon application menu to a default
-	 * {@link RibbonApplicationMenu} (blank icon) and returns the factory for
+	 * {@link RibbonApplicationMenu} (blank icon) and returns the builder for
 	 * additional modification or creation.
 	 * 
-	 * @return the ribbon factory
+	 * @return the ribbon builder
 	 */
-	public RibbonFactory withMenu() {
+	public RibbonBuilder withMenu() {
 		if (ribbon.getApplicationMenu() == null) {
 			ribbon.setApplicationMenu(applicationMenu);
 		}
@@ -731,14 +731,14 @@ public class RibbonFactory {
 
 	/**
 	 * Sets the ribbon application menu to a default
-	 * {@link RibbonApplicationMenu} and returns the factory for additional
+	 * {@link RibbonApplicationMenu} and returns the builder for additional
 	 * modification or creation.
 	 * 
 	 * @param icon
 	 *            the application icon
-	 * @return the ribbon factory
+	 * @return the ribbon builder
 	 */
-	public RibbonFactory withMenu(ResizableIcon icon) {
+	public RibbonBuilder withMenu(ResizableIcon icon) {
 		if (ribbon.getApplicationMenu() == null) {
 			ribbon.setApplicationMenu(applicationMenu);
 			// TODO add application icon
@@ -750,7 +750,7 @@ public class RibbonFactory {
 
 	/**
 	 * Configures the ribbon application help button with a default help icon
-	 * and the specified <code>actionListener</code> and returns the factory for
+	 * and the specified <code>actionListener</code> and returns the builder for
 	 * additional modification or creation.
 	 * <p>
 	 * This is equivalent to calling
@@ -759,9 +759,9 @@ public class RibbonFactory {
 	 * @param actionListener
 	 *            the action listener to handle what to do when the help button
 	 *            is clicked
-	 * @return the ribbon factory
+	 * @return the ribbon builder
 	 */
-	public RibbonFactory withHelp(ActionListener actionListener) {
+	public RibbonBuilder withHelp(ActionListener actionListener) {
 		return withHelp(
 				getResizableIconFromResource("example/resources/help.png"),
 				actionListener);
@@ -769,7 +769,7 @@ public class RibbonFactory {
 
 	/**
 	 * Configures the ribbon application help button with the specified
-	 * <code>icon</code> and <code>actionListener</code> and returns the factory
+	 * <code>icon</code> and <code>actionListener</code> and returns the builder
 	 * for additional modification or creation.
 	 * 
 	 * @see JRibbon#configureHelp(ResizableIcon, ActionListener)
@@ -778,9 +778,9 @@ public class RibbonFactory {
 	 * @param actionListener
 	 *            the action listener to handle what to do when the help button
 	 *            is clicked
-	 * @return the ribbon factory
+	 * @return the ribbon builder
 	 */
-	public RibbonFactory withHelp(ResizableIcon icon,
+	public RibbonBuilder withHelp(ResizableIcon icon,
 			ActionListener actionListener) {
 		ribbon.configureHelp(icon, actionListener);
 		return this;
@@ -788,7 +788,7 @@ public class RibbonFactory {
 
 	/**
 	 * Associates the last added {@link JCommandButton} with the
-	 * <code>priority</code> and returns the factory for additional modification
+	 * <code>priority</code> and returns the builder for additional modification
 	 * or creation.
 	 * <p>
 	 * This mapping will be used later when the button is added to its ribbon
@@ -802,16 +802,16 @@ public class RibbonFactory {
 	 * @see LinkedList#getLast()
 	 * @param priority
 	 *            the ribbon band priority
-	 * @return the ribbon factory
+	 * @return the ribbon builder
 	 */
-	public RibbonFactory hasPriority(RibbonElementPriority priority) {
+	public RibbonBuilder hasPriority(RibbonElementPriority priority) {
 		commandButtonsPriority.put(commandButtons.getLast(), priority);
 		return this;
 	}
 
 	/**
-	 * Adds the <code>button</code> to the factory queue of
-	 * {@link JCommandButton}s and returns the factory for additional
+	 * Adds the <code>button</code> to the builder queue of
+	 * {@link JCommandButton}s and returns the builder for additional
 	 * modification or creation.
 	 * <p>
 	 * This is equivalent to calling
@@ -822,15 +822,15 @@ public class RibbonFactory {
 	 *            button title (may contain any number of words)
 	 * @param actionListener
 	 *            the action listener
-	 * @return the ribbon factory
+	 * @return the ribbon builder
 	 */
-	public RibbonFactory addButton(String name, ActionListener actionListener) {
+	public RibbonBuilder addButton(String name, ActionListener actionListener) {
 		return addButton(name, null, actionListener);
 	}
 
 	/**
-	 * Adds the <code>button</code> to the factory queue of
-	 * {@link JCommandButton}s and returns the factory for additional
+	 * Adds the <code>button</code> to the builder queue of
+	 * {@link JCommandButton}s and returns the builder for additional
 	 * modification or creation.
 	 * <p>
 	 * This is equivalent to calling
@@ -841,16 +841,16 @@ public class RibbonFactory {
 	 *            button icon (may be <code>null</code>)
 	 * @param actionListener
 	 *            the action listener
-	 * @return the ribbon factory
+	 * @return the ribbon builder
 	 */
-	public RibbonFactory addButton(ResizableIcon icon,
+	public RibbonBuilder addButton(ResizableIcon icon,
 			ActionListener actionListener) {
 		return addButton("", icon, actionListener);
 	}
 
 	/**
-	 * Adds the <code>button</code> to the factory queue of
-	 * {@link JCommandButton}s and returns the factory for additional
+	 * Adds the <code>button</code> to the builder queue of
+	 * {@link JCommandButton}s and returns the builder for additional
 	 * modification or creation.
 	 * <p>
 	 * A new <code>JCommandButton</code> is created with the given parameters
@@ -866,9 +866,9 @@ public class RibbonFactory {
 	 *            button icon (may be <code>null</code>)
 	 * @param actionListener
 	 *            the action listener
-	 * @return the ribbon factory
+	 * @return the ribbon builder
 	 */
-	public RibbonFactory addButton(String name, ResizableIcon icon,
+	public RibbonBuilder addButton(String name, ResizableIcon icon,
 			ActionListener actionListener) {
 		JCommandButton button = new JCommandButton(name, icon);
 		button.setFlat(false);
@@ -879,8 +879,8 @@ public class RibbonFactory {
 	}
 
 	/**
-	 * Adds the <code>button</code> to the factory queue of
-	 * {@link JCommandButton}s and returns the factory for additional
+	 * Adds the <code>button</code> to the builder queue of
+	 * {@link JCommandButton}s and returns the builder for additional
 	 * modification or creation.
 	 * <p>
 	 * This is equivalent to calling
@@ -898,17 +898,17 @@ public class RibbonFactory {
 	 *            will be ignored.
 	 * @param actionTooltip
 	 *            the rich tooltip for the action part of the button
-	 * @return the ribbon factory
+	 * @return the ribbon builder
 	 */
-	public RibbonFactory addButtonTypeAction(String name, ResizableIcon icon,
+	public RibbonBuilder addButtonTypeAction(String name, ResizableIcon icon,
 			ActionListener actionListener, RichTooltip actionTooltip) {
 		return addButton(name, icon, actionListener,
 				CommandButtonKind.ACTION_ONLY, actionTooltip, null, null, false);
 	}
 
 	/**
-	 * Adds the <code>button</code> to the factory queue of
-	 * {@link JCommandButton}s and returns the factory for additional
+	 * Adds the <code>button</code> to the builder queue of
+	 * {@link JCommandButton}s and returns the builder for additional
 	 * modification or creation.
 	 * <p>
 	 * This is equivalent to calling
@@ -926,17 +926,17 @@ public class RibbonFactory {
 	 *            will be ignored.
 	 * @param popupTooltip
 	 *            the rich tooltip for the popup part of the button
-	 * @return the ribbon factory
+	 * @return the ribbon builder
 	 */
-	public RibbonFactory addButtonTypePopup(String name, ResizableIcon icon,
+	public RibbonBuilder addButtonTypePopup(String name, ResizableIcon icon,
 			ActionListener actionListener, RichTooltip popupTooltip) {
 		return addButton(name, icon, actionListener,
 				CommandButtonKind.POPUP_ONLY, null, popupTooltip, null, false);
 	}
 
 	/**
-	 * Adds the <code>button</code> to the factory queue of
-	 * {@link JCommandButton}s and returns the factory for additional
+	 * Adds the <code>button</code> to the builder queue of
+	 * {@link JCommandButton}s and returns the builder for additional
 	 * modification or creation.
 	 * <p>
 	 * This is equivalent to calling
@@ -956,9 +956,9 @@ public class RibbonFactory {
 	 *            the rich tooltip for the action part of the button
 	 * @param popupTooltip
 	 *            the rich tooltip for the popup part of the button
-	 * @return the ribbon factory
+	 * @return the ribbon builder
 	 */
-	public RibbonFactory addButtonTypeActionMain(String name,
+	public RibbonBuilder addButtonTypeActionMain(String name,
 			ResizableIcon icon, ActionListener actionListener,
 			RichTooltip actionTooltip, RichTooltip popupTooltip) {
 		return addButton(name, icon, actionListener,
@@ -967,8 +967,8 @@ public class RibbonFactory {
 	}
 
 	/**
-	 * Adds the <code>button</code> to the factory queue of
-	 * {@link JCommandButton}s and returns the factory for additional
+	 * Adds the <code>button</code> to the builder queue of
+	 * {@link JCommandButton}s and returns the builder for additional
 	 * modification or creation.
 	 * <p>
 	 * This is equivalent to calling
@@ -988,9 +988,9 @@ public class RibbonFactory {
 	 *            the rich tooltip for the action part of the button
 	 * @param popupTooltip
 	 *            the rich tooltip for the popup part of the button
-	 * @return the ribbon factory
+	 * @return the ribbon builder
 	 */
-	public RibbonFactory addButtonTypePopupMain(String name,
+	public RibbonBuilder addButtonTypePopupMain(String name,
 			ResizableIcon icon, ActionListener actionListener,
 			RichTooltip actionTooltip, RichTooltip popupTooltip) {
 		return addButton(name, icon, actionListener,
@@ -999,8 +999,8 @@ public class RibbonFactory {
 	}
 
 	/**
-	 * Adds the <code>button</code> to the factory queue of
-	 * {@link JCommandButton}s and returns the factory for additional
+	 * Adds the <code>button</code> to the builder queue of
+	 * {@link JCommandButton}s and returns the builder for additional
 	 * modification or creation.
 	 * <p>
 	 * This is equivalent to calling
@@ -1018,17 +1018,17 @@ public class RibbonFactory {
 	 *            will be ignored.
 	 * @param kind
 	 *            the command button kind
-	 * @return the ribbon factory
+	 * @return the ribbon builder
 	 */
-	public RibbonFactory addButton(String name, ResizableIcon icon,
+	public RibbonBuilder addButton(String name, ResizableIcon icon,
 			ActionListener actionListener, CommandButtonKind kind) {
 		return addButton(name, icon, actionListener, kind, null, null, null,
 				false);
 	}
 
 	/**
-	 * Adds the <code>button</code> to the factory queue of
-	 * {@link JCommandButton}s and returns the factory for additional
+	 * Adds the <code>button</code> to the builder queue of
+	 * {@link JCommandButton}s and returns the builder for additional
 	 * modification or creation.
 	 * <p>
 	 * This is equivalent to calling
@@ -1046,17 +1046,17 @@ public class RibbonFactory {
 	 *            will be ignored.
 	 * @param isFlat
 	 *            <code>true</code> if flat, <code>false</code> if not flat
-	 * @return the ribbon factory
+	 * @return the ribbon builder
 	 */
-	public RibbonFactory addButton(String name, ResizableIcon icon,
+	public RibbonBuilder addButton(String name, ResizableIcon icon,
 			ActionListener actionListener, boolean isFlat) {
 		return addButton(name, icon, actionListener,
 				CommandButtonKind.ACTION_ONLY, null, null, null, isFlat);
 	}
 
 	/**
-	 * Adds the <code>button</code> to the factory queue of
-	 * {@link JCommandButton}s and returns the factory for additional
+	 * Adds the <code>button</code> to the builder queue of
+	 * {@link JCommandButton}s and returns the builder for additional
 	 * modification or creation.
 	 * <p>
 	 * This is equivalent to calling
@@ -1076,9 +1076,9 @@ public class RibbonFactory {
 	 *            the command button kind
 	 * @param isFlat
 	 *            <code>true</code> if flat, <code>false</code> if not flat
-	 * @return the ribbon factory
+	 * @return the ribbon builder
 	 */
-	public RibbonFactory addButton(String name, ResizableIcon icon,
+	public RibbonBuilder addButton(String name, ResizableIcon icon,
 			ActionListener actionListener, CommandButtonKind kind,
 			boolean isFlat) {
 		return addButton(name, icon, actionListener, kind, null, null, null,
@@ -1086,8 +1086,8 @@ public class RibbonFactory {
 	}
 
 	/**
-	 * Adds the <code>button</code> to the factory queue of
-	 * {@link JCommandButton}s and returns the factory for additional
+	 * Adds the <code>button</code> to the builder queue of
+	 * {@link JCommandButton}s and returns the builder for additional
 	 * modification or creation.
 	 * <p>
 	 * A new <code>JCommandButton</code> is created with the given parameters
@@ -1113,9 +1113,9 @@ public class RibbonFactory {
 	 * @param popupCallback
 	 *            the popup callback to display the popup menu when the popup
 	 *            part of the button is selected
-	 * @return the ribbon factory
+	 * @return the ribbon builder
 	 */
-	public RibbonFactory addButton(String name, ResizableIcon icon,
+	public RibbonBuilder addButton(String name, ResizableIcon icon,
 			ActionListener actionListener, CommandButtonKind kind,
 			RichTooltip actionTooltip, RichTooltip popupTooltip,
 			PopupPanelCallback popupCallback, boolean isFlat) {
@@ -1132,27 +1132,27 @@ public class RibbonFactory {
 	}
 
 	/**
-	 * Adds the <code>button</code> to the factory queue of
-	 * {@link JCommandButton}s and returns the factory for additional
+	 * Adds the <code>button</code> to the builder queue of
+	 * {@link JCommandButton}s and returns the builder for additional
 	 * modification or creation.
 	 * <p>
 	 * Buttons are not added to the ribbon band until a band is created. When a
-	 * band is created with the factory methods the factory queue of
+	 * band is created with the builder methods the builder queue of
 	 * <code>JCommandButton</code>s are emptied into the newly created
 	 * <code>JRibbonBand</code>.
 	 * 
 	 * @param button
 	 *            the command button
-	 * @return the ribbon factory
+	 * @return the ribbon builder
 	 */
-	public RibbonFactory addButton(JCommandButton button) {
+	public RibbonBuilder addButton(JCommandButton button) {
 		commandButtons.add(button);
 		return this;
 	}
 
 	/**
-	 * Adds the <code>button</code> to the factory queue of
-	 * {@link JCommandButton}s and returns the factory for additional
+	 * Adds the <code>button</code> to the builder queue of
+	 * {@link JCommandButton}s and returns the builder for additional
 	 * modification or creation.
 	 * <p>
 	 * This is equivalent to calling
@@ -1172,7 +1172,7 @@ public class RibbonFactory {
 	 *            the rich tooltip for the action part of the button
 	 * @param isFlat
 	 *            <code>true</code> if flat, <code>false</code> if not flat
-	 * @return the ribbon factory
+	 * @return the ribbon builder
 	 */
 	public static JCommandButton createButtonTypeAction(String name,
 			ResizableIcon icon, ActionListener actionListener,
@@ -1203,7 +1203,7 @@ public class RibbonFactory {
 	 *            the rich tooltip for the popup part of the button
 	 * @param isFlat
 	 *            <code>true</code> if flat, <code>false</code> if not flat
-	 * @return the ribbon factory
+	 * @return the ribbon builder
 	 */
 	public static JCommandButton createButtonTypePopup(String name,
 			ResizableIcon icon, ActionListener actionListener,
@@ -1235,7 +1235,7 @@ public class RibbonFactory {
 	 *            the rich tooltip for the popup part of the button
 	 * @param isFlat
 	 *            <code>true</code> if flat, <code>false</code> if not flat
-	 * @return the ribbon factory
+	 * @return the ribbon builder
 	 */
 	public static JCommandButton createButtonTypeActionMain(String name,
 			ResizableIcon icon, ActionListener actionListener,
@@ -1268,7 +1268,7 @@ public class RibbonFactory {
 	 *            the rich tooltip for the popup part of the button
 	 * @param isFlat
 	 *            <code>true</code> if flat, <code>false</code> if not flat
-	 * @return the ribbon factory
+	 * @return the ribbon builder
 	 */
 	public static JCommandButton createButtonTypePopupMain(String name,
 			ResizableIcon icon, ActionListener actionListener,
@@ -1301,7 +1301,7 @@ public class RibbonFactory {
 	 * @param popupCallback
 	 *            the popup callback to display the popup menu when the popup
 	 *            part of the button is selected
-	 * @return the ribbon factory
+	 * @return the ribbon builder
 	 */
 	public static JCommandButton createButton(String name, ResizableIcon icon,
 			ActionListener actionListener, CommandButtonKind kind,
@@ -1330,7 +1330,7 @@ public class RibbonFactory {
 	}
 
 	/**
-	 * Clears the factory queue of buttons to be added to the next
+	 * Clears the builder queue of buttons to be added to the next
 	 * {@link JRibbonBand}.
 	 */
 	public void clearButtonsQueue() {
@@ -1338,11 +1338,11 @@ public class RibbonFactory {
 	}
 
 	/**
-	 * Adds the <code>task</code> to the factory instance and returns the
-	 * factory for additional modifications or creation.
+	 * Adds the <code>task</code> to the builder instance and returns the
+	 * builder for additional modifications or creation.
 	 * <p>
 	 * Due to limitations of {@link RibbonTask} we cannot dynamically add bands
-	 * to a task. Instead use the factory methods to add bands to the factory
+	 * to a task. Instead use the builder methods to add bands to the builder
 	 * queue and when a task is added the queue is emptied, putting all the
 	 * {@link JRibbonBand}s in the new task.
 	 * <p>
@@ -1351,18 +1351,18 @@ public class RibbonFactory {
 	 * @see #addTask(String, String)
 	 * @param title
 	 *            the ribbon task name
-	 * @return the ribbon factory
+	 * @return the ribbon builder
 	 */
-	public RibbonFactory addTask(String title) {
+	public RibbonBuilder addTask(String title) {
 		return addTask(title, null);
 	}
 
 	/**
-	 * Adds the <code>task</code> to the factory instance and returns the
-	 * factory for additional modifications or creation.
+	 * Adds the <code>task</code> to the builder instance and returns the
+	 * builder for additional modifications or creation.
 	 * <p>
 	 * Due to limitations of {@link RibbonTask} we cannot dynamically add bands
-	 * to a task. Instead use the factory methods to add bands to the factory
+	 * to a task. Instead use the builder methods to add bands to the builder
 	 * queue and when a task is added the queue is emptied, putting all the
 	 * {@link JRibbonBand}s in the new task.
 	 * 
@@ -1372,9 +1372,9 @@ public class RibbonFactory {
 	 *            the ribbon task title
 	 * @param keyTip
 	 *            the key tip to focus the task
-	 * @return the ribbon factory
+	 * @return the ribbon builder
 	 */
-	public RibbonFactory addTask(String title, String keyTip) {
+	public RibbonBuilder addTask(String title, String keyTip) {
 		JRibbonBand[] _bands = new JRibbonBand[bands.size()];
 		RibbonTask task = new RibbonTask(title, bands.toArray(_bands));
 		task.setKeyTip(keyTip);
@@ -1384,58 +1384,58 @@ public class RibbonFactory {
 	}
 
 	/**
-	 * Adds the <code>band</code> to the factory queue of {@link JRibbonBand}s
-	 * and returns the factory for additional modification or creation.
+	 * Adds the <code>band</code> to the builder queue of {@link JRibbonBand}s
+	 * and returns the builder for additional modification or creation.
 	 * <p>
 	 * This is equivalent to calling
-	 * <code>RibbonFactory.addBand("", icon, null)</code>.
+	 * <code>RibbonBuilder.addBand("", icon, null)</code>.
 	 * 
 	 * @see #addBand(String, ResizableIcon, ActionListener)
 	 * @param icon
 	 *            associated icon (for collapsed state)
-	 * @return the ribbon factory
+	 * @return the ribbon builder
 	 */
-	public RibbonFactory addBand(ResizableIcon icon) {
+	public RibbonBuilder addBand(ResizableIcon icon) {
 		return addBand("", icon, null);
 	}
 
 	/**
-	 * Adds the <code>band</code> to the factory queue of {@link JRibbonBand}s
-	 * and returns the factory for additional modification or creation.
+	 * Adds the <code>band</code> to the builder queue of {@link JRibbonBand}s
+	 * and returns the builder for additional modification or creation.
 	 * <p>
 	 * This is equivalent to calling
-	 * <code>RibbonFactory.addBand(title, null, null)</code>.
+	 * <code>RibbonBuilder.addBand(title, null, null)</code>.
 	 * 
 	 * @see #addBand(String, ResizableIcon, ActionListener)
 	 * @param title
 	 *            band title
-	 * @return the ribbon factory
+	 * @return the ribbon builder
 	 */
-	public RibbonFactory addBand(String title) {
+	public RibbonBuilder addBand(String title) {
 		return addBand(title, null, null);
 	}
 
 	/**
-	 * Adds the <code>band</code> to the factory queue of {@link JRibbonBand}s
-	 * and returns the factory for additional modification or creation.
+	 * Adds the <code>band</code> to the builder queue of {@link JRibbonBand}s
+	 * and returns the builder for additional modification or creation.
 	 * <p>
 	 * This is equivalent to calling
-	 * <code>RibbonFactory.addBand(title, icon, null)</code>.
+	 * <code>RibbonBuilder.addBand(title, icon, null)</code>.
 	 * 
 	 * @see #addBand(String, ResizableIcon, ActionListener)
 	 * @param title
 	 *            band title
 	 * @param icon
 	 *            associated icon (for collapsed state)
-	 * @return the ribbon factory
+	 * @return the ribbon builder
 	 */
-	public RibbonFactory addBand(String title, ResizableIcon icon) {
+	public RibbonBuilder addBand(String title, ResizableIcon icon) {
 		return addBand(title, icon, null);
 	}
 
 	/**
-	 * Adds the <code>band</code> to the factory queue of {@link JRibbonBand}s
-	 * and returns the factory for additional modification or creation.
+	 * Adds the <code>band</code> to the builder queue of {@link JRibbonBand}s
+	 * and returns the builder for additional modification or creation.
 	 * <p>
 	 * A new <code>JRibbonBand</code> is created with the given parameters and
 	 * passed to the {@link #addBand(JRibbonBand)} method.
@@ -1447,9 +1447,9 @@ public class RibbonFactory {
 	 *            associated icon (for collapsed state)
 	 * @param actionListener
 	 *            expand action listener (can be null)
-	 * @return the ribbon factory
+	 * @return the ribbon builder
 	 */
-	public RibbonFactory addBand(String title, ResizableIcon icon,
+	public RibbonBuilder addBand(String title, ResizableIcon icon,
 			ActionListener actionListener) {
 		JRibbonBand band = new JRibbonBand(title, icon, actionListener);
 		band.setResizePolicies(getDefaultPoliciesFor(band));
@@ -1457,20 +1457,20 @@ public class RibbonFactory {
 	}
 
 	/**
-	 * Adds the <code>band</code> to the factory queue of {@link JRibbonBand}s
-	 * and returns the factory for additional modification or creation.
+	 * Adds the <code>band</code> to the builder queue of {@link JRibbonBand}s
+	 * and returns the builder for additional modification or creation.
 	 * <p>
 	 * Ribbon bands are not added to the ribbon until a task is created. When a
-	 * task is created with the factory methods the factory queue of
+	 * task is created with the builder methods the builder queue of
 	 * <code>JRibbonBand</code>s are emptied into the newly created
 	 * <code>RibbonTask</code>.
 	 * 
 	 * @see #clearButtonsQueue()
 	 * @param band
 	 *            the ribbon band
-	 * @return the ribbon factory
+	 * @return the ribbon builder
 	 */
-	public RibbonFactory addBand(JRibbonBand band) {
+	public RibbonBuilder addBand(JRibbonBand band) {
 		for (JCommandButton b : commandButtons) {
 			// set the custom priority if there is a mapping
 			RibbonElementPriority priority = commandButtonsPriority.get(b);
@@ -1494,7 +1494,7 @@ public class RibbonFactory {
 	}
 
 	/**
-	 * Clears the factory queue of ribbon bands to be added to the next
+	 * Clears the builder queue of ribbon bands to be added to the next
 	 * {@link RibbonTask}.
 	 */
 	public void clearRibbonBandsQueue() {
@@ -1502,7 +1502,7 @@ public class RibbonFactory {
 	}
 
 	/**
-	 * Returns the ribbon that has been configured via this factory.
+	 * Returns the ribbon that has been configured via this builder.
 	 * 
 	 * @return the ribbon
 	 */
@@ -1565,7 +1565,7 @@ public class RibbonFactory {
 	 * @return a <code>ResizableIcon</code> object with the resource
 	 */
 	public static ResizableIcon getResizableIconFromResource(String resource) {
-		return getResizableIconFromResource(RibbonFactory.class
+		return getResizableIconFromResource(RibbonBuilder.class
 				.getClassLoader().getResource(resource), new Dimension(48, 48));
 	}
 

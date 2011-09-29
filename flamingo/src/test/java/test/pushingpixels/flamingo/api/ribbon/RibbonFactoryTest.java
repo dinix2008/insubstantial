@@ -10,17 +10,17 @@ import org.pushingpixels.flamingo.api.common.JCommandButton;
 import org.pushingpixels.flamingo.api.common.JCommandButton.CommandButtonKind;
 import org.pushingpixels.flamingo.api.common.icon.ResizableIcon;
 import org.pushingpixels.flamingo.api.ribbon.JRibbon;
-import org.pushingpixels.flamingo.api.ribbon.RibbonFactory;
+import org.pushingpixels.flamingo.api.ribbon.RibbonBuilder;
 import org.pushingpixels.flamingo.internal.ui.ribbon.JBandControlPanel;
 
 public class RibbonFactoryTest extends TestCase {
 
 	/** The factory to be used for each test */
-	private RibbonFactory ribbon;
+	private RibbonBuilder ribbon;
 
 	@Before
 	public void setUp() throws Exception {
-		ribbon = new RibbonFactory();
+		ribbon = new RibbonBuilder();
 	}
 
 	/** Tests that ribbon tasks are added successfully */
@@ -107,7 +107,7 @@ public class RibbonFactoryTest extends TestCase {
 	 *            the amount of buttons to add to each band
 	 * @return the test <code>RibbonFactory</code>
 	 */
-	protected RibbonFactory addBands(int bands, int buttons) {
+	protected RibbonBuilder addBands(int bands, int buttons) {
 		for (int i = 0; i < bands; i++) {
 			addButtons(buttons);
 			ribbon.addBand("Band " + i);
@@ -124,7 +124,7 @@ public class RibbonFactoryTest extends TestCase {
 	 *            the amount of buttons to add to the ribbon
 	 * @return the test <code>RibbonFactory</code>
 	 */
-	protected RibbonFactory addButtons(int buttons) {
+	protected RibbonBuilder addButtons(int buttons) {
 		for (int i = 0; i < buttons; i++) {
 			ribbon.addButton("Button " + i, null);
 		}
